@@ -9,15 +9,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
+
 public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
-    private static int mQuestionIndex = 0;
+    private int mQuestionIndex = 0;
 
     private static final String TAG = "QuizActivity";
+    private static final String INDEX_KEY = "Index";
+    private static final String ANSWERED_KEY = "Answered Array";
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_asia, true),
@@ -27,12 +32,20 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_africa, false),
             new Question(R.string.question_americas, true)};
 
+    private boolean[] answeredArray = new boolean[mQuestionBank.length];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         Log.d(TAG, "OnCreate()");
 
+        if (savedInstanceState != null){
+            mQuestionIndex = savedInstanceState.getInt(INDEX_KEY, 0);
+            answeredArray = savedInstanceState.getBooleanArray(ANSWERED_KEY);
+        }
+
+        updateLayout();
         mFalseButton = (Button) findViewById(R.id.false_button);
         mTrueButton = (Button) findViewById(R.id.true_button);
 
@@ -40,6 +53,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
+                answeredArray[mQuestionIndex] = true;
+                updateLayout();
             }
         });
 
@@ -47,6 +62,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(true);
+                answeredArray[mQuestionIndex] = true;
+                updateLayout();
             }
         });
 
@@ -59,6 +76,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mQuestionIndex = (mQuestionIndex + 1) % mQuestionBank.length;
                 updateQuestion();
+                updateLayout();
             }
         });
 
@@ -69,8 +87,20 @@ public class QuizActivity extends AppCompatActivity {
                 if (mQuestionIndex == 0) mQuestionIndex = mQuestionBank.length - 1;
                 else mQuestionIndex = mQuestionIndex - 1;
                 updateQuestion();
+                updateLayout();
             }
         });
+
+    }
+
+    private void updateLayout(){
+        if (answeredArray[mQuestionIndex]) {
+            mTrueButton.setEnabled(false);
+            mFalseButton.setEnabled(false);
+        }else{
+            mTrueButton.setEnabled(true);
+            mFalseButton.setEnabled(true);
+        }
     }
 
     private void updateQuestion(){
@@ -85,6 +115,14 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle onSaveInstanceState){
+        super.onSaveInstanceState(onSaveInstanceState);
+        onSaveInstanceState.putInt(INDEX_KEY, mQuestionIndex);
+        onSaveInstanceState.putBooleanArray(ANSWERED_KEY, answeredArray);
+        Log.d(TAG, "onSaveInstanceState()");
     }
 
     @Override
