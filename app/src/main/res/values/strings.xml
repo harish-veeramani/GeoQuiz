@@ -5,6 +5,7 @@
     <string name="incorrect_toast">Incorrect!</string>
     <string name="next_button">Next</string>
     <string name="true_button">True</string>
+    <string name="back_button">Back</string>
 
     <string name="question_australia">Canberra is the capital of Australia</string>
     <string name="question_oceans">The Pacific Ocean is larger than the Atlantic Ocean</string>
