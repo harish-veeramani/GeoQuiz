@@ -9,8 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
-
 
 public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
@@ -19,6 +17,7 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
     private int mQuestionIndex = 0;
+    private int mNumCorrect = 0;
 
     private static final String TAG = "QuizActivity";
     private static final String INDEX_KEY = "Index";
@@ -40,14 +39,16 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         Log.d(TAG, "OnCreate()");
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mQuestionIndex = savedInstanceState.getInt(INDEX_KEY, 0);
             answeredArray = savedInstanceState.getBooleanArray(ANSWERED_KEY);
         }
 
-        updateLayout();
         mFalseButton = (Button) findViewById(R.id.false_button);
         mTrueButton = (Button) findViewById(R.id.true_button);
+        mQuestionTextView = (TextView) findViewById(R.id.question_textview);
+        updateQuestion();
+        updateLayout();
 
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +67,6 @@ public class QuizActivity extends AppCompatActivity {
                 updateLayout();
             }
         });
-
-        mQuestionTextView = (TextView) findViewById(R.id.question_textview);
-        updateQuestion();
 
         mNextButton = (Button) findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -93,32 +91,46 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private void updateLayout(){
+    private void updateLayout() {
         if (answeredArray[mQuestionIndex]) {
             mTrueButton.setEnabled(false);
             mFalseButton.setEnabled(false);
-        }else{
+        } else {
             mTrueButton.setEnabled(true);
             mFalseButton.setEnabled(true);
         }
+        if (areAllTrue(answeredArray)) {
+            double percentCorrect = mNumCorrect / mQuestionBank.length * 100;
+            Toast.makeText(this, "You got " + mNumCorrect + " out of " + mQuestionBank.length + " correct!", Toast.LENGTH_LONG).show();
+        }
     }
 
-    private void updateQuestion(){
+    private void updateQuestion() {
         int question = mQuestionBank[mQuestionIndex].getTextResId();
         mQuestionTextView.setText(question);
+    }
+
+    private boolean areAllTrue(boolean[] booleanArray) {
+        for (boolean answered : booleanArray) {
+            if (answered == false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void checkAnswer(boolean userPress) {
         boolean answer = mQuestionBank[mQuestionIndex].isAnswer();
         if (userPress == answer) {
             Toast.makeText(this, R.string.correct_toast, Toast.LENGTH_SHORT).show();
+            mNumCorrect++;
         } else {
             Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle onSaveInstanceState){
+    protected void onSaveInstanceState(Bundle onSaveInstanceState) {
         super.onSaveInstanceState(onSaveInstanceState);
         onSaveInstanceState.putInt(INDEX_KEY, mQuestionIndex);
         onSaveInstanceState.putBooleanArray(ANSWERED_KEY, answeredArray);
@@ -126,31 +138,31 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart()");
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause()");
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop()");
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
     }
