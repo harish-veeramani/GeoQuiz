@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,20 +7,23 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:orientation="vertical"
-    android:gravity="center"
     tools:context="com.harish.bignerdranch.geoquiz.QuizActivity">
 
     <TextView
         android:id="@+id/question_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_marginTop="25dp"
+        tools:text="Test"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
+        android:id="@+id/truefalse_linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_centerInParent="true"
         android:layout_marginTop="25dp">
 
         <Button
@@ -34,27 +37,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/false_button"/>
-
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/cheat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_left"
-            android:contentDescription="Back button"/>
+        android:text="@string/cheat_button"
+        android:layout_below="@+id/truefalse_linearlayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"/>
 
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next_button"
-            android:drawableEnd="@drawable/arrow_right"
-            android:drawablePadding="4dp"/>
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Back button"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/arrow_left"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/arrow_right"
+        android:drawablePadding="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/next_button"/>
+
+</RelativeLayout>

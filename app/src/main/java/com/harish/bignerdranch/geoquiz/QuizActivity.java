@@ -14,6 +14,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
     private int mQuestionIndex = 0;
@@ -46,7 +47,11 @@ public class QuizActivity extends AppCompatActivity {
 
         mFalseButton = (Button) findViewById(R.id.false_button);
         mTrueButton = (Button) findViewById(R.id.true_button);
+        mNextButton = (Button) findViewById(R.id.next_button);
+        mBackButton = (ImageButton) findViewById(R.id.back_button);
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
         mQuestionTextView = (TextView) findViewById(R.id.question_textview);
+
         updateQuestion();
         updateLayout();
 
@@ -68,7 +73,6 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mNextButton = (Button) findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +82,6 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mBackButton = (ImageButton) findViewById(R.id.back_button);
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +89,13 @@ public class QuizActivity extends AppCompatActivity {
                 else mQuestionIndex = mQuestionIndex - 1;
                 updateQuestion();
                 updateLayout();
+            }
+        });
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start CheatActivity
             }
         });
 
