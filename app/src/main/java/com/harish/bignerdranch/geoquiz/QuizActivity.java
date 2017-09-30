@@ -21,14 +21,17 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
+    private TextView mCheatsLeft;
     private int mQuestionIndex = 0;
     private int mNumCorrect = 0;
+    private int mTimesCheated = 0;
     private boolean mIsCheater;
 
     private static final String TAG = "QuizActivity";
     private static final String INDEX_KEY = "Index";
     private static final String ANSWERED_KEY = "Answered Array";
     private static final String HAS_CHEATED_KEY = "Has Cheated?";
+    private static final String TIMES_CHEATED_KEY = "Times Cheated";
     private static final int REQUEST_CODE_CHEAT = 0;
 
     private Question[] mQuestionBank = new Question[]{
@@ -51,6 +54,7 @@ public class QuizActivity extends AppCompatActivity {
             mQuestionIndex = savedInstanceState.getInt(INDEX_KEY, 0);
             answeredArray = savedInstanceState.getBooleanArray(ANSWERED_KEY);
             mIsCheater = savedInstanceState.getBoolean(HAS_CHEATED_KEY);
+            mTimesCheated = savedInstanceState.getInt(TIMES_CHEATED_KEY);
         }
 
         mFalseButton = (Button) findViewById(R.id.false_button);
@@ -59,6 +63,7 @@ public class QuizActivity extends AppCompatActivity {
         mBackButton = (ImageButton) findViewById(R.id.back_button);
         mCheatButton = (Button) findViewById(R.id.cheat_button);
         mQuestionTextView = (TextView) findViewById(R.id.question_textview);
+        mCheatsLeft = (TextView) findViewById(R.id.cheats_remaining_textview);
 
         updateQuestion();
         updateLayout();
@@ -119,8 +124,13 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             setAllEnabled();
         }
+        String message = getResources().getString(R.string.cheats_remaining, (3 - mTimesCheated));
+        mCheatsLeft.setText(message);
         if (!mIsCheater){
             mCheatButton.setVisibility(View.VISIBLE);
+        }
+        if (mTimesCheated >= 3){
+            mCheatButton.setVisibility(View.INVISIBLE);
         }
         if (areAllTrue(answeredArray)) {
             //double percentCorrect = mNumCorrect / mQuestionBank.length * 100;
@@ -147,7 +157,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private boolean areAllTrue(boolean[] booleanArray) {
         for (boolean answered : booleanArray) {
-            if (answered == false) {
+            if (!answered) {
                 return false;
             }
         }
@@ -178,6 +188,8 @@ public class QuizActivity extends AppCompatActivity {
             mIsCheater = CheatActivity.wasAnswerShown(returnIntent);
             if (mIsCheater){
                 mCheatButton.setVisibility(View.INVISIBLE);
+                mTimesCheated++;
+                updateLayout();
             }
         }
     }
@@ -188,6 +200,7 @@ public class QuizActivity extends AppCompatActivity {
         onSaveInstanceState.putInt(INDEX_KEY, mQuestionIndex);
         onSaveInstanceState.putBooleanArray(ANSWERED_KEY, answeredArray);
         onSaveInstanceState.putBoolean(HAS_CHEATED_KEY, mIsCheater);
+        onSaveInstanceState.putInt(TIMES_CHEATED_KEY, mTimesCheated);
         Log.d(TAG, "onSaveInstanceState()");
     }
 

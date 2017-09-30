@@ -18,6 +18,7 @@
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
+        android:id="@+id/truefalse_linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -35,6 +36,15 @@
             android:layout_height="wrap_content"
             android:text="@string/false_button"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/cheats_remaining_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Cheats remaining"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="15dp"/>
 
     <Button
         android:id="@+id/cheat_button"

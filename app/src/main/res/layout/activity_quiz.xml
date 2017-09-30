@@ -46,7 +46,15 @@
         android:text="@string/cheat_button"
         android:layout_below="@+id/truefalse_linearlayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginTop="0dp"/>
+
+    <TextView
+        android:id="@+id/cheats_remaining_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Cheats remaining"
+        android:layout_below="@id/cheat_button"
+        android:layout_centerHorizontal="true"/>
 
     <ImageButton
         android:id="@+id/back_button"
@@ -63,7 +71,7 @@
         android:drawableEnd="@drawable/arrow_right"
         android:drawablePadding="4dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:text="@string/next_button"/>
 
 </RelativeLayout>

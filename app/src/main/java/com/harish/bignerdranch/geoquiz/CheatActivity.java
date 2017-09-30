@@ -45,27 +45,25 @@ public class CheatActivity extends AppCompatActivity {
                 }else{
                     mCheatTextView.setText(R.string.false_button);
                 }
-                setAnswerShownResult(mAnswer);
+                setAnswerShownResult(mHasCheated);
             }
 
         }
 
         mShowAnswerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 if (mAnswer){
                     mCheatTextView.setText(R.string.true_button);
                 }else{
                     mCheatTextView.setText(R.string.false_button);
                 }
-                mHasCheated = true;
-                setAnswerShownResult(mAnswer);
+                setAnswerShownResult(true);
 
                 cheatButtonInvisible();
 
             }
         });
-
     }
 
     private void cheatButtonInvisible() {
@@ -93,7 +91,7 @@ public class CheatActivity extends AppCompatActivity {
 
     private void setAnswerShownResult (boolean answer){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(EXTRA_ANSWER_SHOWN, mAnswer);
+        returnIntent.putExtra(EXTRA_ANSWER_SHOWN, answer);
         setResult(Activity.RESULT_OK, returnIntent);
     }
 
